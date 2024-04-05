@@ -100,6 +100,7 @@ const AuthForm = () => {
           >
             {isLogin ? "Create new account" : "Login with existing account"}
           </button>
+          {isLogin && <button>Forgot Password</button>}
         </div>
       </form>
     </section>
