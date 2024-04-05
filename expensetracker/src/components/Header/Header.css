@@ -1,0 +1,25 @@
+.linklist{
+    display: flex;
+    justify-content: center;
+    min-width: 90%;
+}
+.links{
+    
+    padding-right: 5%;
+}
+.cartbtn{
+    float: right;
+    max-width: 10%;
+}
+.header{
+    background-color: aquamarine;
+    text-align: center;
+    min-width: 100%;
+}
+.navbar{
+    margin-left: 5%;
+    display: flex;
+}
+#linklist  a.active {
+    color: black;
+  }

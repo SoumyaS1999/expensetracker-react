@@ -1,14 +1,15 @@
 import { useState, useRef , useContext} from "react";
-//import AuthContext from "../Store/auth-context";
+import AuthContext from "../Store/auth-context";
 //import { Redirect } from 'react-router-dom';
 import classes from "./Authform.module.css";
+import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
-  //const history= useHistory()
+  const Navigate= useNavigate();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  //const authCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,9 +61,10 @@ const AuthForm = () => {
         }
       })
       .then((data)=>{
-        //authCtx.login(data.idToken);
+        authCtx.login(data.idToken);
         console.log(data);
-        alert('Login Successful')
+        Navigate('/profile');
+        //alert('Login Successful')
       })
       .catch((err)=>{
         alert(err.message);
