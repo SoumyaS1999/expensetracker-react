@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
+  const navigate= useNavigate();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
@@ -29,7 +31,9 @@ const ResetPassword = () => {
 
       if (response.ok) {
         setMessage('Password reset email sent. Please check your inbox.');
+        navigate('/login');
         alert('Reset password link send')
+
       } else {
         setMessage(responseData.error.message);
       }

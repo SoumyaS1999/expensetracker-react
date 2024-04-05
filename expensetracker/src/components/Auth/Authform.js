@@ -14,6 +14,10 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const forgotpasswordHandler =()=>{
+    Navigate('/resetpassword')
+  }
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -100,9 +104,10 @@ const AuthForm = () => {
           >
             {isLogin ? "Create new account" : "Login with existing account"}
           </button>
-          {isLogin && <button>Forgot Password</button>}
+        
         </div>
       </form>
+      {isLogin && <button onClick={forgotpasswordHandler}>Forgot Password</button>}
     </section>
   );
 };
