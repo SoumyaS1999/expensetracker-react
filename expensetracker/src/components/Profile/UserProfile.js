@@ -1,9 +1,13 @@
 import React from 'react'
+import ProfileForm from './ProfileForm'
+import GetUserDetails from './GetUserDetails'
 
 const UserProfile = () => {
   return (
     <div>
-      <h3 style={{textAlign:'center'}}>Welcome to Expense Tracker !!</h3>
+        <ProfileForm />
+        
+      
     </div>
   )
 }
