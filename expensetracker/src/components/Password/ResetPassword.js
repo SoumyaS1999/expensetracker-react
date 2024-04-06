@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import './ResetPassword.css'
+
 const ResetPassword = () => {
   const navigate= useNavigate();
   const [email, setEmail] = useState('');
@@ -44,18 +46,21 @@ const ResetPassword = () => {
 
   return (
     <div>
-      <h2>Reset Password</h2>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={handleInputChange}
-          placeholder="Enter your email"
-        />
+            <div className="form">
+      <div className="title">Reset-Password</div>
+      <div className="subtitle">Enter New Password</div>
+      <div className="input-container ic1">
+        <input  className="input" type="email"
+                value={email}
+                onChange={handleInputChange}
+                placeholder="Enter your email" />
+       
       </div>
-      <button onClick={handleResetPassword}>Reset Password</button>
+
+      <button className="submit" onClick={handleResetPassword}>Reset Password</button>
       {message && <p>{message}</p>}
+    </div>
+      
     </div>
   );
 };
