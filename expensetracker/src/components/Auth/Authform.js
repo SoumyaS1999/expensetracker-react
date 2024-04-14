@@ -1,115 +1,79 @@
-import { useState, useRef , useContext} from "react";
-import AuthContext from "../Store/auth-context";
-//import { Redirect } from 'react-router-dom';
-import classes from "./Authform.module.css";
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { useRef } from 'react'
+import {useDispatch} from 'react-redux'
+import { authActions } from '../Store/auth';
 
-const AuthForm = () => {
-  const Navigate= useNavigate();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
+const Authform = () => {
+  const emailRef= useRef();
+  const passwordRef=useRef();
 
-  const authCtx = useContext(AuthContext);
+  const dispatch= useDispatch();
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const forgotpasswordHandler =()=>{
-    Navigate('/resetpassword')
-  }
-
-  const switchAuthModeHandler = () => {
-    setIsLogin((prevState) => !prevState);
-  };
-
-  const submitHandler = (event) => {
+  const loginHandler=(event)=>{
     event.preventDefault();
+    console.log("user-loggedin")
+    console.log(emailRef.current.value);
+    console.log(passwordRef.current.value);
 
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
+    const enteredEmail = emailRef.current.value;
+    const enteredPassword = passwordRef.current.value;
+    fetch( "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAysHuvFXa07LIxOJi5WvSY-OSNV7r2FZA",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return res.json().then((data) => {
+          let errorMessage = "EMAIL_EXISTS!";
+          console.log(data);
 
-    // optional: Add validation
+          //alert(errorMessage);
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .then((data)=>{
+      //authCtx.login(data.idToken);
+      dispatch(authActions.login(data.idToken));
+      console.log(data);
+    })
+    .catch((err)=>{
+      alert(err.message);
+    });
 
-    setIsLoading(true);
-    let url;
-    if (isLogin) {
-        url="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAysHuvFXa07LIxOJi5WvSY-OSNV7r2FZA"
-    } 
-    else {
-        url="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAysHuvFXa07LIxOJi5WvSY-OSNV7r2FZA"
-    }
-    fetch( url,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "EMAIL_EXISTS!";
-            console.log(data);
-
-            //alert(errorMessage);
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data)=>{
-        authCtx.login(data.idToken);
-        console.log(data);
-        Navigate('/profile');
-        //alert('Login Successful')
-      })
-      .catch((err)=>{
-        alert(err.message);
-      });
-  };
-
+    //dispatch(authActions.login());
+  }
   return (
-    <section className={classes.auth}>
-      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-      <form onSubmit={submitHandler}>
-        <div className={classes.control}>
-          <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="password">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            ref={passwordInputRef}
-          />
-        </div>
-        <div className={classes.actions}>
-          {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
-          )}
-          {isLoading && <p>Sending request...</p>}
-          <button
-            type="button"
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}
-          >
-            {isLogin ? "Create new account" : "Login with existing account"}
-          </button>
-        
-        </div>
-      </form>
-      {isLogin && <button onClick={forgotpasswordHandler}>Forgot Password</button>}
-    </section>
-  );
-};
+    <div>
+      <h1>Login </h1>
+      <div>
+        <form onSubmit={loginHandler}>
+          <div>
+            <label htmlFor="email" >Email</label>
+            <input id="email" className='email' type='email' ref={emailRef} />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input id="password" className='password' type='password' ref={passwordRef}/>
+          </div>
+          <div>
+            <button type='submit'>Submit</button>
+           
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
 
-export default AuthForm;
+export default Authform

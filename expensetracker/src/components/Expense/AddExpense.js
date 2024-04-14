@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRef } from "react";
-import "./Expense.css"
+import "./Expense.css";
+import { expenseActions } from '../Store/expense';
+import { useDispatch } from 'react-redux';
+
 
 const AddExpense = (props) => {
     const amountRef = useRef("");
     const descriptionRef = useRef("");
     const categoryRef = useRef("");
+
+    const dispatch= useDispatch();
   
     function submitHandler(event) {
       event.preventDefault();
@@ -18,8 +23,64 @@ const AddExpense = (props) => {
         category: categoryRef.current.value,
       };
   
-      props.onAddExpense(expense);
+      console.log(expense.amount);
+      console.log(expense.description);
+
+      async function addExpenseHandler(expense) {
+        const response = await fetch(
+            "https://expense-tracker-7eef6-default-rtdb.firebaseio.com/expenses.json",
+            {
+              method: "POST",
+              body: JSON.stringify(expense),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          console.log('New expense added with ID:', data.name);
+          console.log(data);
+          fetchExpensesHandler();
+          if(response.ok){
+            dispatch(expenseActions.addExpense(expense));
+          }
+      }
+      addExpenseHandler(expense);
+     // dispatch(expenseActions.addExpense(expense));
     }
+
+    const fetchExpensesHandler = async()=> {
+      
+      try {
+          const response = await fetch("https://expense-tracker-7eef6-default-rtdb.firebaseio.com/expenses.json");
+          if (!response.ok) {
+              throw new Error('Failed to fetch movies');
+          }
+          const data = await response.json();
+
+          const loadedExpenses = [];
+    
+          for (const key in data) {
+            loadedExpenses.push({
+              id: key,
+              amount: data[key].amount,
+              description: data[key].description,
+              category: data[key].category,
+
+            });
+          }
+          dispatch(expenseActions.setExpenses(loadedExpenses))
+          //setIsLoading(false);
+      } catch (error) {
+          console.error('Error fetching movies:', error.message);
+          
+      } 
+      
+  };
+
+ // useEffect(()=>{
+ //   fetchExpensesHandler();
+//},[]);
   return (
    
     <form onSubmit={submitHandler} className="formexpense">

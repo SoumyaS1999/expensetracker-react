@@ -1,19 +1,22 @@
 
 import React, { useState , useContext} from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../Store/auth';
 import { NavLink } from "react-router-dom";
 
-import AuthContext from "../Store/auth-context";
+
+
 
 const Header = () => {
 
-  const authCtx = useContext(AuthContext);
+  const islogin= useSelector(state=>state.auth.isAuthenticated);
+  const dispatch= useDispatch();
 
-  const isLoggedIn = authCtx.isLoggedIn;
-
-  const logoutHandler= ()=>{
-    authCtx.logout();
+  const logoutHandler=()=>{
+    dispatch(authActions.logout());
   }
+
+
 
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
@@ -37,25 +40,25 @@ const Header = () => {
           </NavLink>
         </li>
         <li className="nav-item">
-        {!isLoggedIn && (
+        
             
-            <NavLink className="nav-link"  to="/login" style={{ position: 'fixed', right: '20px'}}>Login</NavLink>
+            {!islogin && <NavLink className="nav-link"  to="/login" style={{ position: 'fixed', right: '20px'}}>Login</NavLink>}
           
-        )}
+        
         </li>
         <li className="nav-item">
-        {isLoggedIn && (
+        
           
-            <NavLink className="nav-link"   to="/profile" style={{ position: 'fixed', right: '80px'}}>Profile</NavLink>
+            {islogin && <NavLink className="nav-link"   to="/profile" style={{ position: 'fixed', right: '80px'}}>Profile</NavLink>}
           
-        )}
+        
         </li>
         <li className="nav-item">
-        {isLoggedIn && (
+      
           
-            <button className="nav-link"  onClick={logoutHandler} style={{ position: 'fixed', right: '3px'}}>Logout</button>
+            {islogin && <button className="nav-link" onClick={logoutHandler} style={{ position: 'fixed', right: '3px'}}>Logout</button>}
           
-        )}
+      
         </li>
         
       </ul>

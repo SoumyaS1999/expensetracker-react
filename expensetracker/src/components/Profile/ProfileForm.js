@@ -1,14 +1,17 @@
 import React, { useRef, useContext, useState, useEffect } from "react";
-import AuthContext from '../Store/auth-context';
 import { useNavigate } from "react-router-dom";
 import GetUserDetails from "./GetUserDetails"; // Import the UserProfile component
+import { useSelector } from "react-redux";
 
 const ProfileForm = () => {
   const fullNameInputRef = useRef();
   const profileUrlInputRef = useRef();
-  const authCtx = useContext(AuthContext);
+
+  const token= useSelector(state=>state.auth.token);
+ 
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(null); // State to hold user details
+  //const [isLoading, setIsLoading] = useState(true);
   
   const cancelHandler = () => {
     navigate("/");
@@ -28,7 +31,7 @@ const ProfileForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          idToken: authCtx.token,
+          idToken: token,
           displayName: enteredName,
           photoUrl: enteredPhotoURL,
           returnSecureToken: true,
@@ -37,7 +40,7 @@ const ProfileForm = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         alert("User details updated");
         fetchUserProfile(); // Fetch user details after updating the profile
       })
@@ -58,31 +61,39 @@ const ProfileForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          idToken: authCtx.token,
+          idToken: token
         }),
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         const userDetails = {
           fullName: data.users[0].displayName,
           profileUrl: data.users[0].photoUrl,
         };
         setUserDetails(userDetails);
+        //setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        //setIsLoading(false);
       });
   };
 
   useEffect(() => {
     fetchUserProfile(); // Fetch user details when the component mounts
-  }, []);
+  },[]);
+
+  
+ // if (isLoading) {
+ //   return <div>Loading...</div>; // Display a loading message or spinner while loading
+ // }
 
   return (
     <div>
       <h3 style={{ textAlign: 'center' }}>Welcome to Expense Tracker !!</h3>
+      {token}
       <form>
       <div >
           <label htmlFor="full-name">Full Name</label>
