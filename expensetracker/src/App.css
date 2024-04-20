@@ -200,6 +200,10 @@
     scroll-behavior: smooth;
   }
 }
+.light-theme{
+  background-color: #9c9e9d;
+  display: 100;
+}
 
 body {
   margin: 0;
@@ -212,6 +216,16 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.light-theme{
+  background-color: #9c9e9d;
+  color: #000000;
+  
+}
+.dark-theme{
+  background-color: black;
+  color: #ffffff;
+
 }
 
 hr {

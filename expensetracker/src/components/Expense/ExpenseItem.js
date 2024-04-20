@@ -4,7 +4,7 @@ const ExpenseItem = ({ id,amount,description,category, onDelete  }) => {
     console.log("keys are:",{id})
     return (
         
-  <tr class="table-active">
+  <tr class="table-primary" style={{backgroundColor:" #15172b"}}>
             <td>{amount}</td>
             <td>{description}</td>
             <td>{category}</td>

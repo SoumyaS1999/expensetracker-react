@@ -1,6 +1,8 @@
 // expensesSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
+const Email = localStorage.getItem('email');
+
 
 const expensesSlice = createSlice({
   name: 'expenses',
@@ -9,6 +11,8 @@ const expensesSlice = createSlice({
     isLoading: false,
     error: null,
     totalAmount: 0,
+    toggleTheme: true,
+    activatePremium: false
 
   },
   reducers: {
@@ -28,7 +32,7 @@ const expensesSlice = createSlice({
         },
         prepare: async (id) => {
           const response = await fetch(
-            `https://expense-tracker-7eef6-default-rtdb.firebaseio.com//expenses/${id}.json`,
+            `https://expense-tracker-7eef6-default-rtdb.firebaseio.com//expenses${Email}/${id}.json`,
             {
               method: "DELETE",
             }
@@ -53,6 +57,14 @@ const expensesSlice = createSlice({
     },
     setTotal:(state,action)=>{
         state.totalAmount= action.payload;
+    },
+    setTheme:(state)=>{
+        state.toggleTheme= !state.toggleTheme;
+        console.log("theme changed")
+    },
+    setPremium:(state)=>{
+        state.activatePremium= true;
+        console.log("setpremium reducer")
     }
   },
 });

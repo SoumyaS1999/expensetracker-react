@@ -2,8 +2,10 @@ import React from 'react'
 import { useRef } from 'react'
 import {useDispatch} from 'react-redux'
 import { authActions } from '../Store/auth';
+import {useNavigate} from 'react-router-dom';
 
 const Authform = () => {
+  const navigate= useNavigate();
   const emailRef= useRef();
   const passwordRef=useRef();
 
@@ -44,7 +46,7 @@ const Authform = () => {
     })
     .then((data)=>{
       //authCtx.login(data.idToken);
-      dispatch(authActions.login(data.idToken));
+      dispatch(authActions.login({token: data.idToken, useremail: data.localId}));
       console.log(data);
     })
     .catch((err)=>{
@@ -53,23 +55,37 @@ const Authform = () => {
 
     //dispatch(authActions.login());
   }
+
+  const signupHandler=()=>{
+    navigate('/signup');
+  }
   return (
-    <div>
-      <h1>Login </h1>
+    <div style={
+
+
+      {
+        justifyContent:"center",
+        alignItems:"center",
+        textAlign:"center"
+      }
+    }>
       <div>
-        <form onSubmit={loginHandler}>
-          <div>
-            <label htmlFor="email" >Email</label>
-            <input id="email" className='email' type='email' ref={emailRef} />
+        <form onSubmit={loginHandler}  className="formexpense">
+        <div class="title">Welcome</div>
+      <div class="subtitle">Login to Expense Tracker</div>
+          <div class="input-container ic1">
+            <input id="email" className='input' type='email' placeholder='Email' ref={emailRef} />
+          </div>
+          <div class="input-container ic1">
+        
+            <input id="password" className='input' type='password' placeholder='Password' ref={passwordRef}/>
           </div>
           <div>
-            <label htmlFor="password">Password</label>
-            <input id="password" className='password' type='password' ref={passwordRef}/>
-          </div>
-          <div>
-            <button type='submit'>Submit</button>
-           
-          </div>
+            <button className='submit' type='submit'>Submit</button>
+           </div>
+           <div>
+            <button className='submit' onClick={signupHandler}>New User Signup</button>
+           </div>
         </form>
       </div>
     </div>

@@ -4,10 +4,8 @@ import ProfileForm from './ProfileForm'
 
 const UserProfile = () => {
   return (
-    <div>
-        <ProfileForm />
-        
-      
+    <div >
+        <ProfileForm />  
     </div>
   )
 }

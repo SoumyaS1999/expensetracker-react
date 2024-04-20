@@ -11,8 +11,8 @@
     box-sizing: border-box;
     height: 500px;
     width: 300px;
-    margin: auto;
     margin-top: 1%;
+    margin-left: 3%;
     text-align: center;
 
   }
@@ -124,4 +124,3 @@
   .submit:active {
     background-color: #06b;
   }
-  

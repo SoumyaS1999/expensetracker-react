@@ -1,13 +1,14 @@
 const GetUserDetails = ({ fullName, profileUrl }) => {
     return (
       <div>
-        <h3>User Profile</h3>
-        <div>
-          <strong>Full Name:</strong> {fullName}
-        </div>
-        <div>
-          <strong>Profile Photo URL:</strong> {profileUrl}
-        </div>
+        <div class="card text-white bg-primary mb-3" style={{maxWidth: "20rem"}}>
+  <div class="card-header">User Profile</div>
+  <div class="card-body">
+    <h4 class="card-title">{fullName}</h4>
+    <p class="card-text">{profileUrl}</p>
+  </div>
+  </div>
+
       </div>
     );
   };

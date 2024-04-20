@@ -35,9 +35,9 @@ const Header = () => {
         </li>
         <li className="nav-item">
           
-          <NavLink className="nav-link" to="/expense" >Expense
+          {islogin && <NavLink className="nav-link" to="/expense" >Expense
             <span className="visually-hidden">(current)</span>
-          </NavLink>
+          </NavLink>}
         </li>
         <li className="nav-item">
         

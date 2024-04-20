@@ -9,6 +9,7 @@ const AddExpense = (props) => {
     const amountRef = useRef("");
     const descriptionRef = useRef("");
     const categoryRef = useRef("");
+    const useremail=localStorage.getItem('email')
 
     const dispatch= useDispatch();
   
@@ -28,7 +29,7 @@ const AddExpense = (props) => {
 
       async function addExpenseHandler(expense) {
         const response = await fetch(
-            "https://expense-tracker-7eef6-default-rtdb.firebaseio.com/expenses.json",
+            `https://expense-tracker-7eef6-default-rtdb.firebaseio.com/expenses${useremail}.json`,
             {
               method: "POST",
               body: JSON.stringify(expense),
@@ -52,7 +53,7 @@ const AddExpense = (props) => {
     const fetchExpensesHandler = async()=> {
       
       try {
-          const response = await fetch("https://expense-tracker-7eef6-default-rtdb.firebaseio.com/expenses.json");
+          const response = await fetch(`https://expense-tracker-7eef6-default-rtdb.firebaseio.com/expenses${useremail}.json`);
           if (!response.ok) {
               throw new Error('Failed to fetch movies');
           }
