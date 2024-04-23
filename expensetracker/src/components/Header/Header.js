@@ -29,7 +29,7 @@ const Header = () => {
       <ul className="navbar-nav me-auto">
         <li className="nav-item">
           
-          <NavLink className="nav-link active" to="/" >Home
+          <NavLink className="nav-link" to="/" >Home
             <span className="visually-hidden">(current)</span>
           </NavLink>
         </li>

@@ -45,6 +45,7 @@ const Signup = () => {
       .then((data)=>{
         //authCtx.login(data.idToken);
        // dispatch(authActions.login(data.idToken));
+       navigate('/login')
         console.log(data);
       })
       .catch((err)=>{
@@ -59,7 +60,7 @@ const Signup = () => {
     return (
       <div>
         <div>
-          <form onSubmit={signupHandler} className="formexpense">
+          <form onSubmit={signupHandler} className="formexpense" style={{minHeight:"500px", minWidth:"350px"}}>
           <div class="title">Welcome</div>
       <div class="subtitle">Signup to Expense Tracker</div>
             <div class="input-container ic1">

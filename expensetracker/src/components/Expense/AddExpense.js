@@ -84,7 +84,7 @@ const AddExpense = (props) => {
 //},[]);
   return (
    
-    <form onSubmit={submitHandler} className="formexpense">
+    <form onSubmit={submitHandler} className="formexpense" style={{marginLeft:"12px"}}>
       <div class="title">Welcome</div>
       <div class="subtitle">Add Your Expenses</div>
       <div class="input-container ic1">
@@ -98,10 +98,17 @@ const AddExpense = (props) => {
 
       <div className="input-container ic2">
       <select className="input" id="category" name="category" ref={categoryRef} >
+        <option>Electronics</option>
         <option>Fuel</option>
         <option>Food</option>
-        <option>Electricity</option>
+        <option>Household</option>
+        <option>Medicines</option>
+        <option>Movie</option>
+        <option>Recharge</option>
         <option>Rent</option>
+        <option>Subscriptions</option>
+        <option>Travel</option>
+        <option>Others</option>
       </select>
     </div>
 
